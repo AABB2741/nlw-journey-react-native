@@ -26,18 +26,32 @@ function Button({
     variant = "primary",
     isLoading,
     children,
+    className,
     ...rest
 }: ButtonProps) {
     return (
-        <TouchableOpacity disabled={isLoading} activeOpacity={0.7} {...rest}>
-            <View
-                className={clsx(
-                    "w-full h-11 flex-row items-center justify-center rounded-lg gap-2",
-                    {
-                        "bg-lime-300": variant === "primary",
-                        "bg-zinc-800": variant === "secondary",
-                    }
-                )}
+        <View
+            className={clsx(
+                "h-11 rounded-lg overflow-hidden",
+                {
+                    "bg-lime-300": variant === "primary",
+                    "bg-zinc-800": variant === "secondary",
+                },
+                className
+            )}
+        >
+            <TouchableOpacity
+                disabled={isLoading}
+                activeOpacity={0.7}
+                style={{
+                    width: "100%",
+                    height: "100%",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    flexDirection: "row",
+                    gap: 8,
+                }}
+                {...rest}
             >
                 <ThemeContext.Provider value={{ variant }}>
                     {isLoading ? (
@@ -46,8 +60,8 @@ function Button({
                         children
                     )}
                 </ThemeContext.Provider>
-            </View>
-        </TouchableOpacity>
+            </TouchableOpacity>
+        </View>
     );
 }
 
