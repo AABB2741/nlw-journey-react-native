@@ -10,6 +10,7 @@ import { colors } from "@/styles/colors";
 import {
     CalendarIcon,
     CalendarRange,
+    Info,
     Mail,
     MapPin,
     Settings2,
@@ -61,6 +62,10 @@ export default function Trip() {
     async function getTripDetails() {
         try {
             setIsLoadingTrip(true);
+
+            if (participantId) {
+                setShowModal(MODAL.CONFIRM_ATTENDANCE);
+            }
 
             if (!tripId) {
                 return router.back();
@@ -183,6 +188,30 @@ export default function Trip() {
         }
     }
 
+    async function handleRemoveTrip() {
+        try {
+            Alert.alert(
+                "Remover viagem",
+                " Tem certeza de que deseja remover a viagem?",
+                [
+                    {
+                        text: "Não",
+                        style: "cancel",
+                    },
+                    {
+                        text: "Sim",
+                        async onPress() {
+                            await tripStorage.remove();
+                            router.navigate("/");
+                        },
+                    },
+                ]
+            );
+        } catch (err) {
+            console.error(err);
+        }
+    }
+
     useEffect(() => {
         getTripDetails();
     }, []);
@@ -239,7 +268,7 @@ export default function Trip() {
                         onPress={() => setOption("details")}
                         variant={option === "details" ? "primary" : "secondary"}
                     >
-                        <CalendarRange
+                        <Info
                             color={
                                 option === "details"
                                     ? colors.lime[950]
@@ -284,6 +313,15 @@ export default function Trip() {
                     >
                         <Button.Title>Atualizar</Button.Title>
                     </Button>
+
+                    <TouchableOpacity
+                        activeOpacity={0.8}
+                        onPress={handleRemoveTrip}
+                    >
+                        <Text className="text-red-400 text-center mt-6">
+                            Remover viagem
+                        </Text>
+                    </TouchableOpacity>
                 </View>
             </Modal>
 
