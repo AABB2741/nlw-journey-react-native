@@ -44,11 +44,11 @@ function Button({
                 disabled={isLoading}
                 activeOpacity={0.7}
                 style={{
-                    width: "100%",
                     height: "100%",
                     justifyContent: "center",
                     alignItems: "center",
                     flexDirection: "row",
+                    paddingHorizontal: 8,
                     gap: 8,
                 }}
                 {...rest}
